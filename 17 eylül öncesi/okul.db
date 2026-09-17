@@ -1,0 +1,71 @@
+PARAGMA foreign_keys=ON
+
+CREATE TABLLE IF NOT EXİSTS students(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    student_number TEXT UNIQUE NOT NULL,
+    full_name TEXT NOT NULLL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE IF NOT EXISTS courses(
+    id İNTEGER  PRIMARY KEY AUTOINCREMENT,
+    COURsE_CODE text unıque not null,---örn:M0B001
+    title TEXT NOT NULL,
+    creadit INTEGER NOT NULL CHECK(creadit>0)
+);
+
+
+CREATE TABLE IF NOT EXISTS enrollments(
+ student_id INTEGER NOT NULL,//STUDENT_İD
+ course_idINTEGER CHECK(final_grade BETWEEN 0 AND 100),
+  enrollment_code DATETİME DEFAULTCURRENT_TIMESTAMP,
+    final_grade INTEGER CHECK (final_grade BETWEEN 0 AND 100)
+ PRİMARY KEY (student_id,course_id),//birincil anahtar 
+FOREIGN KEY (course_id)REFERENCES students(id)ON DELETE CASCADE,
+FOREIGN KEY (course_id)REFERENCES curses(id)ON DELETE RESTRICT
+);
+
+
+INSERT INTO students(student_number,full_name)VALUES ('0RG001','Abdullah ballı' )
+('0Rg002' , 'alaaddin odabaşı');
+INSERT INTO courses(course_code,title,credit)VALUES('M0B101','Flutter Dersi',4);
+
+
+INSERT INTO  enrollments (students_id,course_id,final_grade)VALUES(1,1,85),
+
+
+---TEST 1 KURSU SİLMEYE ÇALIŞALIM
+DELETE FROM courses WHERE id=1;
+
+---çıktı: Error:FOREIGN KEY constranaint failed!(kurs silinemez çünkü kayıtlı öğrenci var )
+
+---çıktı : boş (öğrenci silinince otomatik olarak kayıt satırıda silindi)
+
+
+
+normalizasyon
+//HARD KOS SPAGETTİ KOD  X
+HASTANE KLİNİK TABLOSU 
+hastano       hasta adı      telefonlar    doktorno-ad     bolum- kodu-adi---ilaclar 
+H101         ESRA           0542..2430     DR01,AHMET      B1-KARDİOLOJİ     ASPİRİN,ARVELES
+
+1NF: atomik değerller kuralı 
+kural: hucre tekil ve bölünmez omalıdır 
+
+
+2NF kuralı: tam fonksiyonel bağımlılık 
+kural: tablo 1NF olmlaıdır.tabloda bileşik anahtar varsa anahtar olmayan her sutun bileşik
+anahtarın tamamına bağımlı olmalıdır 
+
+
+3NF kuralı:geçişli bağımlılıklların yok edilmesi
+kural: tablo 2NF olmalıdır anahtar omayan hiç bir sutun baska bir anahtra olmayan 
+sutuna bağımlı olamaz.
+
+
+BCNF : TÜM TABLOLARDAN DAHA KATI HER BİRİNE AYRI BİR PİYOR KURARSINB
+
+
+
+SELF JOIN:

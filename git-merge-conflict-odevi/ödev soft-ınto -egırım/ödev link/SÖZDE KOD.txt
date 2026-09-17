@@ -1,0 +1,40 @@
+SÖZDE KOD :
+
+adım 1= başla
+ 
+adım 2=uygulamayı aç
+
+adım 3= kullanıcı giriş yapmış mı ? eğer evet ise ürünleri göster
+hayır ise giriş ekranına yönlendir 
+
+adım 4=eğer giriş yapılmamışsa,Giriş Ekranına yönlendir,
+    Giriş yap
+
+adım5=Ürünleri göster
+
+adım 6=Ürün seç
+Sepete ekle
+
+adım 7= başka ürün var mı? eğer
+    EVET ise  Ürün seç
+    HAYIR ise Sepet toplamını hesapla
+
+adım8=Sepet toplamını hesapla
+Sepet toplamını hesapla
+
+adım9=Bakiye yeterli mi? eğer
+bakiye >=sepet toplamı ise 
+siparişi onayla
+değilse
+bakiye yükle göster
+
+adım10=Siparişi tamamla
+
+Siparişi onayla
+Bakiyeden düş
+Sipariş paketini sunucuya gönder
+
+adım11=bitir
+
+
+

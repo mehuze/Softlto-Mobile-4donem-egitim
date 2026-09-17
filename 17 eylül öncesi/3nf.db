@@ -1,0 +1,36 @@
+1 hastalar
+CREATE TABLE patients(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    tc_no TEXT UNIQE NOT NULL,
+    full_name TEXT NOT NULL,
+    phone TEXT NOT NULL)
+
+
+
+2. BÖLÜMLER
+
+CREATE TABLE departments(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL)
+
+
+3.DOKTORLAR 
+CREATE TABLE doctors(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    department_id INTEGER NOT NULL,
+    full_name TEXT NOT NULL,
+    FOREGN KEY (deparment_id) REFERANCES departments(id);
+
+)
+
+
+4. randevular 
+CREATE TABLE APPOİNMENTS(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    patient_id INTEGER NOT NULL,
+    doctor_id INTEGER NOT NULL,
+    appointment_date DATATİME NOT NULL,
+    FOREIGN KEY (patient_İD)REFERANCES patients(id)
+    FOREIGN KEY (doctor_id)REFERANCES doctors(id)
+
+)

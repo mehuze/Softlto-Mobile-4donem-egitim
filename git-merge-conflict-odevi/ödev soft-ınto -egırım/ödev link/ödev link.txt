@@ -1,0 +1,2 @@
+
+https://github.com/mehuze/git-merge-conflict-odevi/blob/main/example2.dart
