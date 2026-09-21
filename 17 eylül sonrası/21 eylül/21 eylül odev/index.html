@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İzmir Efes Antik Kenti & Tarih Keşif Turu</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: blueviolet;
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .box {
+            background: rgb(67, 2, 2);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            /* px birimi eklendi */
+            border: 1px solid #3d526e;
+            color: white;
+            /* İçindeki yazılar okunabilsin diye beyaz yaptım */
+        }
+
+        details {
+            margin-bottom: 10px;
+            border: 1px solid #daba05;
+            border-radius: 6px;
+            padding: 10px;
+            background: #fff;
+            /* Açıldığında okunaklı olsun */
+        }
+
+        summary {
+            font-weight: bold;
+            cursor: pointer;
+            color: #7e0979;
+        }
+
+
+        details[open] {
+            background: #eff6ff;
+        }
+
+        details p {
+            font-size: 13px;
+            color: #334155;
+            margin-top: 8px;
+            margin-bottom: 0;
+        }
+
+        dialog {
+            border: none;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 360px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        dialog::backdrop {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(3px);
+        }
+
+        .btn-modal {
+            background: #334155;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sayfa Başlığı ve Giriş -->
+    <div class="box">
+        <h1>İzmir Efes Antik Kenti Turu</h1>
+        <p>Tarih dolu bu eşsiz yolculuğa sen de katıl!...</p>
+    </div>
+
+    <!-- Sıkça Sorulan Sorular -->
+    <div class="box">
+        <h3>Sıkça Sorulan Sorular</h3>
+        <details open>
+            <summary>Müze kart geçerli mi?</summary>
+            <p>Evet, müze kart ile giriş yapılabilir, rehberlik hizmeti ayrıca dahildir.</p>
+        </details>
+        <details>
+            <summary>Tur ne kadar sürüyor?</summary>
+            <p>Yaklaşık 5 saat süren kapsamlı bir yürüyüş turudur.</p>
+        </details>
+    </div>
+
+
+    <!-- Efes Tanıtım Videosu ve Konum Kutusu -->
+    <div class="box">
+        <h3>Efes Antik Kenti Tanıtım Videosu ve Konum</h3>
+
+        <div style="margin-bottom: 15px;">
+            <iframe style="width: 100%; aspect-ratio: 16/9; border: 0; border-radius: 8px;"
+                src="https://www.youtube.com/embed/4lVV9AgY56o" title="Efes Antik Kenti Tanıtım Videosu"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+
+    <!-- Google Harita -->
+    <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6293.431076652153!2d27.344577421726708!3d37.9370754457761!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14bead17e240cbdd%3A0x79d54ef1a77452bc!2sEfes%20Arkeolojik%20Alan%C4%B1!5e0!3m2!1str!2str!4v1790010153484!5m2!1str!2str"
+        width="100%" height="250" style="border:0; border-radius: 8px;" allowfullscreen="" loading="lazy"
+        referrerpolicy="strict-origin-when-cross-origin">
+    </iframe>
+    </div>
+
+    <!-- Tur Kontenjan Durumu -->
+    <div class="box">
+        <h3>Tur Kontenjan Durumu</h3>
+        <p>Kalan Boş Yer: <strong>8 / 30</strong></p>
+        <!-- meter etiketi kullanımı -->
+        <meter min="0" max="30" value="8" low="10" high="25" optimum="28" style="width: 100%;">8/30</meter>
+    </div>
+
+    <!-- Tur Detay Kartı ve Modal Butonu -->
+    <div class="box">
+        <h3>Efes Günübirlik Tur</h3>
+        <p style="font-size: 13px; color: #cbd5e1;">Detayları öğrenmek için aşağıdaki butona tıklayabilirsiniz.</p>
+        <button class="btn-modal" onclick="document.getElementById('efesDetayModal').showModal()">
+            Detaylı Bilgi Al
+        </button>
+    </div>
+
+    <!-- <dialog> Modal kısmı -->
+    <dialog id="efesDetayModal">
+        <h3 style="margin-top: 0; color: #1e293b;">Efes Antik Kenti Tur Detayları</h3>
+        <p style="font-size: 13px; color: #475569;"><strong>Tur Süresi:</strong> 1 Tam Gün</p>
+        <p style="font-size: 13px; color: #475569;"><strong>Gezilecek Yerler:</strong> Celsus Kütüphanesi, Büyük
+            Tiyatro, Artemis Tapınağı.</p>
+        <p style="font-size: 13px; color: #475569;"><strong>Dahil Olanlar:</strong> Rehberlik ve ulaşım.</p>
+
+        <!-- Kapat Butonu -->
+        <div style="margin-top: 16px; text-align: right;">
+            <div>
+                <button onclick="document.getElementById('efesDetayModal').close()"
+                    style="padding: 6px 12px; border-radius: 4px; cursor: pointer;">
+                    Kapat
+                </button>
+            </div>
+        </div>
+    </dialog>
+
+</body>
+
+</html>
