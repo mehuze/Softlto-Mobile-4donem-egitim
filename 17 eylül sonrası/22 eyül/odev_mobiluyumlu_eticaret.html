@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ürün Detay & Sepet</title>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: #e2e8f0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .phone-container {
+            width: 100%;
+            max-width: 480px;
+            background: white;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 90px;
+        }
+
+        .top-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: white;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .top-bar .back-btn {
+            font-size: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .top-bar .cart-btn {
+            font-size: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .top-bar .cart-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .product-image-wrap {
+            position: relative;
+            background: linear-gradient(135deg, #dbeafe, #e0f2fe);
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .product-image {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            border-radius: 16px;
+            border: 4px solid white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .badge {
+            position: absolute;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 20px;
+            color: white;
+        }
+
+        .badge-discount {
+            top: 16px;
+            left: 16px;
+            background: #ef4444;
+        }
+
+        .badge-shipping {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .badge-shipping:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.6);
+        }
+
+        .info-section {
+            padding: 20px;
+            margin: 0 16px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .chip-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .chip {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid #cbd5e1;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .chip:hover {
+            transform: translateY(-2px);
+            border-color: #0f172a;
+        }
+
+        .chip.selected {
+            background: #0f172a;
+            color: white;
+            border-color: #0f172a;
+        }
+
+        .bottom-bar {
+            position: fixed;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 32px);
+            max-width: 448px;
+            background: white;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .bottom-bar .price {
+            font-size: 20px;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .bottom-bar .add-cart-btn {
+            background: #0f172a;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .bottom-bar .add-cart-btn:hover {
+            background: #1e293b;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(15, 23, 42, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="phone-container">
+
+        <!-- Sticky üst bar -->
+        <header class="top-bar">
+            <button class="back-btn">←</button>
+            <strong>Ürün Detayı</strong>
+            <button class="cart-btn">🛒</button>
+        </header>
+
+        <!-- Ürün görseli ve rozetler -->
+        <div class="product-image-wrap">
+            <img class="product-image" src="https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg"
+                alt="Spor ayakkabı">
+           <span class="badge badge-discount">⭐ %30 İndirim</span>
+            <span class="badge badge-discount badge-shipping"
+                style="left: auto; right: 16px; background: #10b981;">Kargo Bedava</span>
+        </div>
+
+        <!-- Ürün bilgisi ve beden seçimi -->
+        <div class="info-section">
+            <h3>SoundMax Bluetooth Kulaklık</h3>
+            <p style="color: #64748b; margin-top: 6px;">Kablosuz, gürültü engellemeli</p>
+
+            <p style="margin-top: 16px; font-weight: 600;">Renk Seç:</p>
+            <div class="chip-container">
+                <div class="chip">Beyaz</div>
+                <div class="chip selected">Siyah</div>
+                <div class="chip" style="background: #3b82f6; color: white; border-color: #3b82f6;">Mavi</div>
+            </div>
+
+        </div>
+
+        <!-- Alt sabit bar -->
+        <div class="bottom-bar">
+            <span class="price">1.500 ₺</span>
+            <button class="add-cart-btn">Sepete Ekle</button>
+        </div>
+    </div>
+
+</body>
+
+</html>
