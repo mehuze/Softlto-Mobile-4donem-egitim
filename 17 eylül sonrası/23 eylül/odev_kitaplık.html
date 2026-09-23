@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8"> <!-- Türkçe karakterlerin düzgün görünmesi için -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Mobil uyum (Responsive) için hayati etiket -->
+    <title>Kitaplık - Haftanın Seçilen Kitapları</title> <!-- Tarayıcı sekmesinde görünür -->
+
+    <style>
+        /* 
+           1. ZORUNLU KRİTER: CSS RESET VE DEĞİŞKENLER
+           */
+
+        /* Sayfadaki TÜM elemanların varsayılan boşluklarını sıfırlar ve kutu modelini sabitler */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            /* Padding ve border kutunun dışına taşmasın, içine dahil olsun */
+            margin: 0;
+            /* Dış boşlukları sıfırlar */
+            padding: 0;
+            /* İç boşlukları sıfırlar */
+        }
+
+        /* Renkleri ve tekrar eden değerleri tek bir yerden yönetmek için global değişkenler (:root) */
+        :root {
+            --bg-color: #0f172a; /* Sayfa arka planı (Koyu lacivert) */
+           
+            --card-bg: #1e293b;/* Kartların arka plan rengi */
+            
+            --text-primary: #f8fafc; /* Ana yazı rengi (Beyaza yakın) */
+           
+            --text-secondary: #94a3b8; /* İkincil yazı rengi (Gri) */
+           
+            --accent-color: #6366f1;/* Vurgu ve buton rengi (Mor/Mavi) */
+            
+        }
+
+        /* Sayfanın genel yazı tipi ve arka plan ayarları */
+        body {
+            font-family: sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* 
+           PORTAL SHELL (Ana Kapsayıcı Kutu)
+           */
+        .portal-shell {
+            max-width: 1200px;
+            /* Büyük ekranlarda içeriğin çok yayılmasını önler */
+            margin: 0 auto;
+            /* Sayfayı ortalar */
+            padding: 1.5rem;
+            /* İç kenar boşlukları */
+            width: 100%;
+        }
+
+        /* 
+           HEADER (Üst Menü Tasarımı)
+            */
+        header {
+            display: flex;
+            justify-content: space-between;
+            /* Logo sola, canlı gösterge sağa yaslanır */
+            align-items: center;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            /* Altına ince çizgi */
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        /* 
+           6. ZORUNLU KRİTER: CSS ANIMATION
+            */
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Yeşil yanıp sönen nokta */
+        .dot {
+            width: 10px;
+            height: 10px;
+            background-color: #10b981;
+            border-radius: 50%;
+            /* Animasyonu sürekli (infinite) çalıştırıyoruz */
+            animation: pulse-dot 1.5s infinite ease-in-out;
+        }
+
+        /* Animasyonun hareket kuralları (Keyframes) */
+        @keyframes pulse-dot {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            }
+
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+            }
+
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+            }
+        }
+
+        /*
+           4. ZORUNLU KRİTER: AKIŞKAN BAŞLIK (FLUD TYPOGRAPHY)
+            */
+        .hero {
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            /* Ekran küçülünce yazı küçülür, büyüyünce büyür ama sınırları aşmaz */
+            font-size: clamp(1.75rem, 4vw, 3rem);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* 
+           2. ZORUNLU KRİTER: CSS GRID & 3. MOBILE-FIRST
+            */
+        .products-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            /* Mobile-First: Telefonda başlangıçta tek sütun */
+            gap: 1.5rem;
+            /* Kartlar arasındaki boşluk */
+        }
+
+        /*
+           KART TASARIMI VE BONUS (GLASSMORPHISM)
+          */
+        .product-card {
+            background-color: var(--card-bg);
+
+            /* BONUS KRİTER: Gerçek Glassmorphism (Buzlu cam efekti) */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+
+            /* 5. ZORUNLU KRİTER: HOVER VE TRANSITION (Yumuşak geçiş) */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Resim Kapsayıcı Kutusu */
+        .product-image {
+            width: 100%;
+            height: 140px;
+            background: linear-gradient(135deg, #334155, #1e293b);
+            /* Resim yüklenene kadar görünen şık arka plan */
+            border-radius: 0.5rem;
+            overflow: hidden;
+            /* Kutudan taşan kısımları gizler */
+            position: relative;
+        }
+
+        /* Resmin Kendisi */
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Resmi bozmadan kutuya tam oturtur */
+
+            opacity: 0.6;
+            /* Normal halde hafif şeffaf/soluk durur */
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            /* Şeffaflık ve büyümenin yumuşak geçiş süresi */
+        }
+
+        /* 🌟 İSTEDİĞİN ÖZELLİK: Karta mouse ile gelindiğinde (HOVER) */
+        .product-card:hover .product-image img {
+            opacity: 1;
+            /* Resim tamamen netleşir ve görünür hale gelir */
+            transform: scale(1.1);
+            /* Resim hafifçe içine doğru büyüme efekti yapar */
+        }
+
+        .product-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .author {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .product-price {
+            font-weight: bold;
+            color: #818cf8;
+            margin-top: auto;
+            /* Fiyatı ve butonu otomatik olarak kartın en altına iter */
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: #4f46e5;
+        }
+
+        /* 5. ZORUNLU KRİTER: KARTA MOUSE GELDİĞİ AN (HOVER) */
+        .product-card:hover {
+            transform: translateY(-6px);
+            /* Kart hafifçe yukarı kalkar */
+            box-shadow: 0 15px 25px -5px rgba(99, 102, 241, 0.25);
+            /* Gölge belirginleşir */
+            border-color: rgba(99, 102, 241, 0.4);
+        }
+
+        /* 
+           3. ZORUNLU KRİTER: RESPONSIVE (MEDIA QUERIES)
+            */
+
+        /* Tablet Ekranlar (768 piksel ve üzeri) */
+        @media (min-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                /* 2 sütunlu yapıya geçer */
+            }
+        }
+
+        /* Masaüstü Ekranlar (1024 piksel ve üzeri) */
+        @media (min-width: 1024px) {
+            .products-grid {
+                grid-template-columns: repeat(4, 1fr);
+                /* 4 sütunlu yapıya geçer */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Tüm sayfayı saran ana kapsayıcı -->
+    <div class="portal-shell">
+
+        <!-- ÜST MENÜ (HEADER) -->
+        <header>
+            <div class="logo">Kitaplık.</div>
+
+            <!-- Canlı durum göstergesi (CSS Animasyonlu) -->
+            <div class="live-indicator">
+                <span class="dot"></span>
+                <span>Aktif Okuma</span>
+            </div>
+        </header>
+
+        <!-- ANA İÇERİK ALANI -->
+        <main>
+            <!-- Sayfa Başlığı (Akışkan tipografi / clamp) -->
+            <section class="hero">
+                <h1>Haftanın Seçilen Kitapları</h1>
+                <p class="subtitle">En yeni çıkanlar, klasikleşenler ve unutulmaz hikayeler.</p>
+            </section>
+
+            <!-- KİTAP KARTLARININ LİSTELENDİĞİ GRID ALANI -->
+            <section class="products-grid">
+                
+                <!-- Kart 1: Suç ve Ceza -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=500&q=80" alt="Suç ve Ceza">
+                    </div>
+                    <h3>Suç ve Ceza</h3>
+                    <p class="author">Fyodor Dostoyevski</p>
+                    <p class="product-price">120 TL</p>
+                    <button class="btn">İncele</button>
+                </div>
+
+                <!-- Kart 2: 1984 -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=500&q=80" alt="1984">
+                    </div>
+                    <h3>1984</h3>
+                    <p class="author">George Orwell</p>
+                    <p class="product-price">95 TL</p>
+                    <button class="btn">İncele</button>
+                </div>
+
+                <!-- Kart 3: Kürk Mantolu Madonna -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1524578271613-d550eacf6090?auto=format&fit=crop&w=500&q=80" alt="Kürk Mantolu Madonna">
+                    </div>
+                    <h3>Kürk Mantolu Madonna</h3>
+                    <p class="author">Sabahattin Ali</p>
+                    <p class="product-price">80 TL</p>
+                    <button class="btn">İncele</button>
+                </div>
+
+                <!-- Kart 4: Küçük Prens -->
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1476275466078-4007374efbbe?auto=format&fit=crop&w=500&q=80" alt="Küçük Prens">
+                    </div>
+                    <h3>Küçük Prens</h3>
+                    <p class="author">Antoine de Saint-Exupéry</p>
+                    <p class="product-price">65 TL</p>
+                    <button class="btn">İncele</button>
+                </div>
+
+            </section>
+        </main>
+    </div>
+
+</body>
+
+</html>

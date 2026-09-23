@@ -1,0 +1,136 @@
+1. Flexbox ile CSS Grid arasındaki mimari fark nedir ve ne zaman hangisi seçilmelidir?
+
+CEVAP=
+Mimari Fark:  
+ Flexbox tek boyutludur (1D); aynı anda ya sadece yatay (row) ya da 
+sadece dikey (column) düzlemde elemanları hizalamaya odaklanır. CSS Grid ise iki boyutludur (2D);
+ aynı anda hem satırları (rows) hem de sütunları (columns) yönetebilir.
+
+ Ne Zaman Seçilmeli?
+
+ Flexbox:  Navigasyon menüleri, ikon yanındaki yazılar, tek bir satır/sütun 
+ içindeki eleman dizilimleri veya hizalama (ortalama vb.) işlemleri için seçilir.
+
+ CSS Grid: Sayfanın genel yerleşimi (layout), çok sütunlu ürün kartı ızgaraları,
+  sidebar + içerik alanları gibi hem yatay hem dikey koordinat gerektiren büyük yapılar için seçilir.
+
+
+  2. CSS Grid'deki fr (fractional unit) birimi, geleneksel yüzde (%) birimine göre neden daha güvenlidir?
+
+
+  CEVAP=
+  Geleneksel yüzde (%) birimleri, aralarındaki gap (boşluk) ve padding (iç boşluk) değerlerini hesaba katmaz.
+   Örneğin, 3 sütunlu bir yapıda her birine 33.333% verir ve araya 1rem boşluk eklerseK,
+    toplam genişlik %100'ü aştığı için sütunlar alta taşar (overflow).
+
+fr birimi ise kalan boş alanı akıllıca hesaplar. 
+Toplam boşluktan varsa gap ve sabit genişlikli elemanlar çıkarıldıktan sonra kalan alanı oranlar.
+ Bu sayede taşma riskini ortadan kaldırır.
+
+
+ 3. Neden "Desktop-First" (max-width) yerine "Mobile-First" (min-width) mimarisi tercih edilir?
+
+
+ CEVAP=
+ Performans ve Hafiflik: Mobil cihazlar masaüstüne göre daha sınırlı işlemci gücüne ve bataryaya sahiptir.
+  Mobile-first yaklaşımda tarayıcı, önce en sade, yalın ve küçük kodları (mobil sürüm) okur. 
+  Karmaşık masaüstü stilleri sadece ekran büyüdükçe (min-width) yüklenir.
+
+Ölçeklenebilirlik: Tasarımı büyütmek (min-width ile ek özellikler katmak),
+ karmaşık bir masaüstü tasarımını mobilde ezmeye (max-width ile karmaşık stilleri iptal etmeye) 
+ çalışmaktan çok daha kolay ve hatasızdır.
+
+ 4. CSS3'te transition ve animation yazarken neden top, left, width yerine transform ve opacity tercih edilmelidir?
+CEVAP=
+
+ Performans (GPU Acceleration): top, left veya width gibi özellikler değiştirildiğinde tarayıcı 
+ Layout (Reflow) ve Paint aşamalarını yeniden tetikler. Bu, sayfanın kasılmasına ve
+takılmasına (jank) yol açar.
+
+transform (örn: scale, translate) ve opacity ise doğrudan ekran
+kartının (GPU) işlem birimi tarafından işlenir. Bu sayede animasyonlar saniyede
+60 kare (60fps) hızında, kusursuz ve akıcı bir şekilde çalışır.
+
+
+5. CSS Grid'de auto-fit ile minmax() birleşimi nasıl çalışır ve responsive tasarım açısından ne avantaj sağlar?
+
+CEVAP=
+
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); şeklinde kullanılır.
+
+Çalışma Mantığı: Tarayıcı, ekrana sığabildiği kadar çok 250 pikselden az olmama koşuluyla
+ sütun sığdırır (auto-fit). Sütunlar 250px altına düşemez ama 1fr sayesinde kalan boşlukları paylaşarak esnerler.
+
+Avantajı: Media Query yazmaya gerek kalmadan ızgaranın (grid) tamamen otomatik olarak ekrana göre sütun sayısını 
+artırıp azaltmasını (responsive olmasını) sağlar.
+
+
+6. grid-template-areas özelliğinin sağladığı en büyük kurumsal avantaj nedir?
+
+CEVAP=
+
+Görsel Okunabilirlik ve Kolay Bakım:
+ Sayfa yerleşimini adeta bir harita çizer gibi kelimelerle görselleştirmenizi sağlar:
+ grid-template-areas:
+  "header header"
+  "sidebar content"
+  "footer footer";
+
+  Kurumsal Avantaj: Projeyi devralan başka bir yazılımcı, 
+  karmaşık piksel veya satır numaralarıyla uğraşmadan kod bloğuna bakarak
+   sayfanın iskeletini anında görür. Tasarım değişikliklerinde (örneğin sidebar'ı sağa almak) 
+   sadece bu şablonu değiştirmek yeterlidir.
+
+
+ 7. CSS'te clamp() fonksiyonunun 3 parametresi ne anlama gelir?
+
+ CEVAP=
+
+  clamp(minimum, ideal, maksimum) şeklinde çalışır:
+
+Minimum: Değerin alabileceği en küçük sınır (örneğin ekranda yazı çok küçülmesin).
+
+Ideal: Ekran boyutuna göre değişkenlik gösteren, tercih edilen oran (örneğin 4vw).
+
+Maksimum: Değerin alabileceği en büyük sınır (örneğin ekranda yazı sonsuza kadar büyümesin).
+
+Özet: Akışkan tipografide (fluid typography) ekran boyutuna göre esneyen ama 
+asla belirlenen taban ve tavan sınırlarını aşmayan akıllı bir değer aralığı sunar. 
+
+
+
+
+8. Bir CSS animasyonunun sonsuza kadar kesintisiz çalışması için hangi CSS kuralı kullanılır?
+
+CEVAP=
+
+animation-iteration-count özelliğine infinite değeri verilir.
+
+Örnek: animation: pulse-dot 1.5s infinite ease-in-out;
+ (Buradaki infinite ifadesi animasyonun durmaksızın başa sararak tekrarlanmasını sağlar).
+
+
+9. Flutter'da CSS Grid'in ve Flexbox'ın doğrudan karşılığı olan widget'lar nelerdir?
+
+CEVAP=
+
+Flexbox Karşılığı: Row (yatay düzen için) ve Column (dikey düzen için).
+ Ek olarak esnek hizalamalar için Expanded veya Flexible kullanılır.
+
+CSS Grid Karşılığı: Flutter'ın çekirdeğinde doğrudan CSS Grid adında birebir bir yapı yoktur
+ ancak benzer 2D yapıları kurmak için GridView (özellikle GridView.count veya GridView.builder) kullanılır.
+
+
+
+ 10. React Native'de CSS Grid kullanılabilir mi? Kullanılamıyorsa çok sütunlu ızgara yapısı nasıl oluşturulabilir?
+
+ CEVAP=
+
+ Kullanılamaz: React Native, web tarayıcısında değil mobil platformlarda (iOS/Android)
+  çalıştığı için standart CSS (Grid, float vb.) desteklemez. Sistem özünde Flexbox mantığıyla çalışır.
+
+  Çok Sütunlu Yapı Nasıl Oluşturulur?
+
+  FlatList veya SectionList bileşenleri kullanılarak numColumns parametresi verilir 
+  (örneğin numColumns={2} ile 2 sütunlu yapı elde edilir).
+  Veya modern yaklaşımlarda harici kütüphaneler (örn. react-native-masonry-grid) tercih edilir.
