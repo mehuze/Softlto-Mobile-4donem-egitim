@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Araç - hesapla</title>
+</head>
+
+<body>
+
+
+
+
+    <script>
+
+
+
+
+        /*önce algoritma
+        
+        GİRDİLER=
+        ARAÇ
+        MEVCUT YUZDE
+        HEDEF YUZDE
+        İSTASYON KW
+        BASLAMA SAATİ
+        
+        ÇIKTILAR:
+        
+        TAHMİNİ ŞARJ SÜRESİ
+        TOPLAM ÜCRET
+        
+        1-Girdileri al.
+        2-Kontrol et: yüzdeler 0-100 arasında mı, hedef mevcuttan büyük mü,
+        istasyon gücü 0'dan büyük mü? Değilse uyarı yaz ve dur.
+        3-Araca göre "her %1 kaç kW" değerini seç.
+        4-Kaç yüzde doldurulacak:hedef - mevcut
+        5-Toplam enerji: doldurulacak yüzde × her %1'in kW değeri
+        6-Süre (saat): enerji / istasyon gücü
+        7-Süre (dakika): saat × 60
+        8-Başlama saatine göre fiyatı seç: saat 6-21 arasıysa gündüz (8), değilse gece (5)
+        9-Ücret: enerji × fiyat
+        10-süreyi ve ücreti yazdı
+        
+        Neden böyle yapıyoruz?
+        1-Yüzde farkı (4): Depoyu kaçtan kaça dolduracağımızı bilmemiz gerekiyor.
+        2-Enerji (5): Her yüzde belli bir miktar aldığı için yüzde sayısını o miktarla çarpınca toplam ihtiyaç çıkıyor.
+        3-Süre (6): İhtiyacı, istasyonun saatte verdiğine bölünce kaç saat süreceği çıkıyor.
+        4-Dakika (7): Soru dakika istediği için saati 60 ile çarpıyoruz.
+        5-Fiyat seçimi (8): Gündüz ve gece fiyatı farklı olduğu için burada bir if gerekiyor.
+        6-Ücret (9): Ne kadar enerji harcandıysa fiyatla çarpılıyoruz
+        //parantez içindeki sayılar algoritma adımları(yukarıda)
+        
+        örneğin;
+        Girdiler: Araç 2, %20 → %80, istasyon 50000, saat 23
+        Doldurulacak yüzde : 80 - 20 = 60
+        Enerji             : 60 × 1500 = 90000//1500 sayısını ben belirledim.
+        Süre (saat)        : 90000 / 50000 = 1.8
+        Süre (dakika)      : 1.8 × 60 = 108
+        Tarife             : saat 23 → gece → 5 TL
+        Ücret              : 90000 × 5 = 450000 TL 
+        */
+
+        //  SABİT DEĞERLER (biz belirliyoruz) 
+        const arac1Yuzde = 1000; // Araç 1: her %1 = 1000 kW
+        const arac2Yuzde = 1500; // Araç 2: her %1 = 1500 kW
+        const arac3Yuzde = 2000; // Araç 3: her %1 = 2000 kW
+
+        const gunduzFiyat = 8;   // 06:00 - 22:00 arası (TL/kW)
+        const geceFiyat = 5;     // 22:00 - 06:00 arası (TL/kW)
+
+        // ADIM 1: GİRDİLER (parametreler)
+        const sarjHesapla = (arac, mevcutYuzde, hedefYuzde, istasyonKw, baslamaSaati) => {
+
+
+
+            // ADIM 2: KONTROLLER 
+            if (arac < 1 || arac > 3) {
+                return "Araç 1, 2 veya 3 olmalı!";
+            }
+            if (mevcutYuzde < 0 || hedefYuzde > 100) {
+                return "Yüzde değerleri 0 ile 100 arasında olmalı!";
+            }
+            if (hedefYuzde <= mevcutYuzde) {
+                return "Hedef yüzde, mevcut yüzdeden büyük olmalı!";
+            }
+            if (istasyonKw <= 0) {
+                return "İstasyon gücü 0'dan büyük olmalı!";
+            }
+            if (baslamaSaati < 0 || baslamaSaati > 23) {
+                return "Saat 0 ile 23 arasında olmalı!";
+            }
+
+
+
+
+            //ADIM 3: ARACA GÖRE HER %1'İN kW DEĞERİ 
+            let yuzdeBasinaKw;
+            if (arac === 1) {
+                yuzdeBasinaKw = arac1Yuzde;
+            } else if (arac === 2) {
+                yuzdeBasinaKw = arac2Yuzde;
+            } else {
+                yuzdeBasinaKw = arac3Yuzde;
+            }
+
+
+
+            //  ADIM 4: DOLDURULACAK YÜZDE
+            const doldurulacakYuzde = hedefYuzde - mevcutYuzde;
+
+
+
+
+            //  ADIM 5: ENERJİ
+            const enerji = doldurulacakYuzde * yuzdeBasinaKw;
+
+            // ADIM 6: SÜRE (SAAT)
+            const sureSaat = enerji / istasyonKw;
+
+            // ADIM 7: SÜRE (DAKİKA) - Math.round ile yuvarlanır 
+            const sureDakika = Math.round(sureSaat * 60);
+
+            // ADIM 8: SAATE GÖRE FİYAT 
+            
+            let fiyat;
+            let tarife;
+            if (baslamaSaati >= 6 && baslamaSaati < 22) {
+                fiyat = gunduzFiyat;
+                tarife = "Gündüz";
+            } else {
+                fiyat = geceFiyat;
+                tarife = "Gece";
+            }
+
+            //  ADIM 9: ÜCRET
+            const ucret = enerji * fiyat;
+
+
+            // ADIM 10: SONUCU YAZDIR 
+            return "Tarife: " + tarife + " | Süre: " + sureDakika + " dakika, Ücret: " + ucret + " TL";
+        };
+
+       
+        console.log(sarjHesapla(2, 20, 80, 50000, 23));  // Süre: 108 dakika, Ücret: 450000 TL
+        console.log(sarjHesapla(1, 20, 80, 70000, 12));  // Süre: 51 dakika, Ücret: 480000 TL (Math.round örneği)
+        console.log(sarjHesapla(3, 10, 90, 40000, 12));  // Süre: 240 dakika, Ücret: 1280000 TL
+        console.log(sarjHesapla(2, 80, 20, 50000, 23));  // Hedef yüzde, mevcut yüzdeden büyük olmalı!
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
