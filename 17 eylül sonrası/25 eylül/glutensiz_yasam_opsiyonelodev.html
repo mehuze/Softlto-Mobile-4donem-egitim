@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Glutensiz Ürün Stok Takibi</title>
 
-
     <style>
         *,
         *::before,
@@ -16,57 +15,36 @@
             padding: 0;
         }
 
-        /* 1. Kök Değişkenler ve Genel Ayarlar */
-        /* 1. Kök Değişkenler ve Renk Paleti (Yeşil Ağırlıklı Koyu Tema) */
         :root {
             --bg-color: #061a14;
-            /* Derin, koyu orman yeşili arka plan */
             --card-bg: #0b2920;
-            /* Panellerin ve kartların arka planı (biraz daha açık koyu yeşil) */
             --text-main: #ffffff;
-            /* Net beyaz ana yazı rengi */
             --text-muted: #86efac;
-            /* Yumuşak, okunabilir açık yeşil/mint soluk yazı rengi */
             --accent-color: #10b981;
-            /* Canlı çölyak yeşili vurgu rengi */
             --accent-hover: #059669;
-            /* Butonların üzerine gelinceki koyu yeşil */
             --border-color: #134e38;
-            /* Çizgi ve kenarlık renkleri (şeffaf durmayan şık yeşil sınır) */
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-       body {
-            /* Arkaya Unsplash'ten un/tahıl dokulu bir görsel ekledim
-               ve üzerine koyu yeşil şeffaf bir tül (gradient) attım  ki yazılar okunsun */
-            background: linear-gradient(rgba(6, 26, 20, 0.90), rgba(6, 26, 20, 0.95)), 
-                        url('https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1920&q=80');
-            background-size: cover;          /* Görselin ekranı tam kaplamasını sağlar */
-            background-position: center;     /* Görseli ortalar */
-            background-attachment: fixed;    /* Sayfa kaydırılsa bile arka plan sabit kalır */
-            
+        body {
+            background: linear-gradient(rgba(6, 26, 20, 0.90), rgba(6, 26, 20, 0.95)),
+                url('https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             color: var(--text-main);
             padding: 2rem 1rem;
             min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* 2. En Dış Ana Kutu (Container) */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
             gap: 2rem;
-            /* İçindeki büyük parçalar (header, kpi, main) arasında dikey boşluk */
         }
 
-        /* 3. Başlık Alanı (Header) Tasarımı */
         header {
             text-align: center;
             padding: 1rem 0;
@@ -83,7 +61,6 @@
             font-size: 1.05rem;
         }
 
-        /* 4. İstatistik Kutuları (KPI Grid) Tasarımı */
         .kpi-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -111,7 +88,6 @@
             color: var(--accent-color);
         }
 
-        /* 5. Ana Bölüm ve Paneller Tasarımı (Sol Form & Sağ Liste) */
         .main-layout {
             display: grid;
             grid-template-columns: 1fr 1.5fr;
@@ -135,31 +111,29 @@
             padding-bottom: 0.5rem;
         }
 
-        /* 5. Ana Bölüm ve Paneller Tasarımı (Sol Form & Sağ Liste) */
-        .main-layout {
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 2rem;
-            align-items: start;
+        .form-group {
+            margin-bottom: 1rem;
         }
 
-        .panel {
-            background-color: var(--card-bg);
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: var(--bg-color);
             border: 1px solid var(--border-color);
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
-        }
-
-        .panel h2 {
-            font-size: 1.4rem;
-            margin-bottom: 1.5rem;
+            border-radius: 8px;
             color: var(--text-main);
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 0.5rem;
+            font-size: 0.95rem;
+            outline: none;
         }
 
-        /* 7. Kaydet Butonu Tasarımı */
         .btn-submit {
             width: 100%;
             padding: 0.85rem;
@@ -170,7 +144,7 @@
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s;
+            transition: background-color 0.2s;
             margin-top: 0.5rem;
         }
 
@@ -178,15 +152,9 @@
             background-color: var(--accent-hover);
         }
 
-        .btn-submit:active {
-            transform: scale(0.98);
-            /* Tıklandığında hafifçe içeri basılma efekti */
-        }
-
-        /* 8. Arama ve Filtreleme Çubuğu Tasarımı */
         .filter-bar {
             display: grid;
-            grid-template-columns: 1.5fr 1fr;
+            grid-template-columns: 1.5fr 1fr 1fr;
             gap: 1rem;
             margin-bottom: 1.5rem;
         }
@@ -201,15 +169,8 @@
             color: var(--text-main);
             font-size: 0.95rem;
             outline: none;
-            transition: border-color 0.2s;
         }
 
-        .filter-bar input:focus,
-        .filter-bar select:focus {
-            border-color: var(--accent-color);
-        }
-
-        /* 9. Ürün Kartları Alanı ve Kart Tasarımı */
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -230,7 +191,14 @@
         .product-card:hover {
             border-color: var(--accent-color);
             transform: translateY(-2px);
-            /* Üzerine gelince hafifçe yukarı kalkma efekti */
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 0.2rem;
         }
 
         .product-card h4 {
@@ -260,36 +228,15 @@
             color: var(--text-main);
         }
     </style>
-
 </head>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <body>
-    <!-- En dıştaki ana kutumuz (Tüm sayfayı kapsar) -->
     <div class="container">
-
-        <!-- 1. Başlık Alanı -->
         <header>
             <h1>Glutensiz Ürün Stok Takibi</h1>
             <p>Çölyak Dostu Ürünler ve Envanter Yönetim Paneli</p>
         </header>
 
-        <!-- 2. İstatistik Kutuları -->
         <section class="kpi-grid">
             <div class="kpi-card">
                 <span>Toplam Ürün Çeşidi</span>
@@ -305,9 +252,7 @@
             </div>
         </section>
 
-        <!-- 3. Ana Bölüm (Sol Form ve Sağ Liste) -->
         <main class="main-layout">
-
             <!-- Sol Taraf: Yeni Ürün Ekle Formu -->
             <section class="panel">
                 <h2>Yeni Ürün Ekle</h2>
@@ -315,7 +260,7 @@
                 <form id="productForm">
                     <div class="form-group">
                         <label for="prodName">Ürün Adı</label>
-                        <input type="text" id="prodName" placeholder="Örn: Karabuğday Unu" required>
+                        <input type="text" id="prodName" placeholder="Örn: Glutensiz Kraker" required>
                     </div>
 
                     <div class="form-group">
@@ -338,6 +283,11 @@
                         <input type="number" id="prodPrice" value="120" min="5" step="5" required>
                     </div>
 
+                    <div class="form-group">
+                        <label for="prodImageFile">Ürün Görseli (Dosya Seç - İsteğe Bağlı)</label>
+                        <input type="file" id="prodImageFile" accept="image/*">
+                    </div>
+
                     <button type="submit" class="btn-submit">Ürünü Depoya Ekle</button>
                 </form>
             </section>
@@ -346,7 +296,7 @@
             <section class="panel">
                 <h2>Depo Envanteri</h2>
 
-                <div class="filter-bar" style="grid-template-columns: 1.5fr 1fr 1fr;">
+                <div class="filter-bar">
                     <input type="text" id="searchInput" placeholder="Ürün adı ile ara...">
 
                     <select id="categoryFilter">
@@ -357,45 +307,32 @@
                         <option value="Sos & Tatlandırıcı">Sos & Tatlandırıcı</option>
                     </select>
 
-                    <!-- Yeni Sıralama Kutusu -->
                     <select id="sortFilter">
                         <option value="default">Sıralama Seçin</option>
                         <option value="price-desc">Pahalıdan Ucuza</option>
                         <option value="price-asc">Ucuza Pahalıya</option>
-                        <option value="stock-desc">Stok Adedine Göre (Çoktan Azza)</option>
+                        <option value="stock-desc">Stok Adedine Göre</option>
                     </select>
                 </div>
 
                 <div id="productList" class="product-grid">
-                    <!-- JavaScript buraya dinamik ürün kartları ekleyecek -->
+                    <!-- JavaScript dinamik kartları buraya ekleyecek -->
                 </div>
             </section>
-
-        </main> <!-- main-layout kapanışı -->
-
-    </div> <!-- container kapanışı -->
-
-
-
-
-
+        </main>
+    </div>
 
     <script>
-
-       
-        // Depodaki tüm ürünleri saklayacağımız ana dizi (hafıza)
-        // Başlangıçta örnek glütensiz ürünlerle dolu bir dizi tanımlıyoruz
-       
-       
+        // Başlangıç örnek ürünleri (Görselleriyle birlikte)
         let products = [
-            { id: 1, name: 'Glütensiz Çikolatalı Kurabiye', category: 'Atıştırmalık', stock: 45, price: 85 },
-            { id: 2, name: 'Karabuğday Unu (1kg)', category: 'Un & Nişasta', stock: 30, price: 140 },
-            { id: 3, name: 'Glütensiz Ekmek (Dilimli)', category: 'Fırın & Ekmek', stock: 60, price: 75 },
-            { id: 4, name: 'Mısırlı Glütensiz Makarna', category: 'Un & Nişasta', stock: 50, price: 95 },
-            { id: 5, name: 'Glütensiz Vanilyalı Gofret', category: 'Atıştırmalık', stock: 120, price: 45 }
+            { id: 1, name: 'Glütensiz Çikolatalı Kurabiye', category: 'Atıştırmalık', stock: 45, price: 85, image: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=500&q=80' },
+            { id: 2, name: 'Karabuğday Unu (1kg)', category: 'Un & Nişasta', stock: 30, price: 140, image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=500&q=80' },
+            { id: 3, name: 'Glütensiz Ekmek (Dilimli)', category: 'Fırın & Ekmek', stock: 60, price: 75, image: 'https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=500&q=80' },
+            { id: 4, name: 'Mısırlı Glütensiz Makarna', category: 'Un & Nişasta', stock: 50, price: 95, image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=500&q=80' },
+            { id: 5, name: 'Glütensiz Vanilyalı Gofret', category: 'Atıştırmalık', stock: 120, price: 45, image: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=500&q=80' }
         ];
 
-        // DOM elementlerini seçiyoruz
+        // DOM elementleri
         const productForm = document.getElementById('productForm');
         const prodNameInput = document.getElementById('prodName');
         const prodCategorySelect = document.getElementById('prodCategory');
@@ -403,17 +340,31 @@
         const prodPriceInput = document.getElementById('prodPrice');
         const productListContainer = document.getElementById('productList');
 
-        // KPI (İstatistik) elementleri
         const kpiCount = document.getElementById('kpiCount');
         const kpiStock = document.getElementById('kpiStock');
         const kpiTotalValue = document.getElementById('kpiTotalValue');
 
-        // Arama, Filtre ve Sıralama elementleri
         const searchInput = document.getElementById('searchInput');
         const categoryFilter = document.getElementById('categoryFilter');
-        const sortFilter = document.getElementById('sortFilter'); // Yeni sıralama elementi
+        const sortFilter = document.getElementById('sortFilter');
 
-        // Form gönderildiğinde çalışacak olay (Yeni Ürün Ekleme)
+        // Kategoriye göre otomatik resim seçen akıllı fonksiyon
+        function getImageByCategory(category) {
+            switch(category) {
+                case 'Un & Nişasta':
+                    return 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=500&q=80';
+                case 'Atıştırmalık':
+                    return 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=500&q=80';
+                case 'Fırın & Ekmek':
+                    return 'https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=500&q=80';
+                case 'Sos & Tatlandırıcı':
+                    return 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=500&q=80';
+                default:
+                    return 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=500&q=80';
+            }
+        }
+
+        // Form gönderildiğinde çalışacak kısım
         productForm.addEventListener('submit', function (event) {
             event.preventDefault();
 
@@ -422,32 +373,46 @@
             const stock = parseInt(prodStockInput.value);
             const price = parseFloat(prodPriceInput.value);
 
+            const fileInput = document.getElementById('prodImageFile').files[0];
+
+            if (fileInput) {
+                // Kullanıcı özel dosya yüklediyse onu oku
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    addNewProduct(name, category, stock, price, e.target.result);
+                };
+                reader.readAsDataURL(fileInput);
+            } else {
+                // Dosya seçilmediyse kategoriye göre otomatik görsel ata
+                const autoImage = getImageByCategory(category);
+                addNewProduct(name, category, stock, price, autoImage);
+            }
+        });
+
+        function addNewProduct(name, category, stock, price, image) {
             const newProduct = {
                 id: Date.now(),
                 name: name,
                 category: category,
                 stock: stock,
-                price: price
+                price: price,
+                image: image
             };
 
             products.push(newProduct);
-
-            // Formu temizle ve varsayılan değerleri koru
             productForm.reset();
             prodStockInput.value = "20";
             prodPriceInput.value = "120";
-
-            // Ekranı ve istatistikleri güncelle
             renderProducts();
             updateKPIs();
-        });
+        }
 
-        // Dinleyiciler (Arama, Kategori veya Sıralama değiştiğinde listeyi anlık güncelle)
+        // Event Listeners
         searchInput.addEventListener('input', renderProducts);
         categoryFilter.addEventListener('change', renderProducts);
-        sortFilter.addEventListener('change', renderProducts); // Yeni sıralama dinleyicisi
+        sortFilter.addEventListener('change', renderProducts);
 
-        // Ürünleri filtreleyen, sıralayan ve ekrana basan ana fonksiyon
+        // Ürünleri listeleyen ana fonksiyon
         function renderProducts() {
             productListContainer.innerHTML = '';
 
@@ -455,50 +420,43 @@
             const selectedCategory = categoryFilter.value;
             const selectedSort = sortFilter.value;
 
-            // 1. Adım: Arama ve Kategoriye Göre Filtreleme
             let filteredProducts = products.filter(product => {
                 const matchesName = product.name.toLowerCase().includes(searchTerm);
                 const matchesCategory = (selectedCategory === 'Tümü' || product.category === selectedCategory);
-
                 return matchesName && matchesCategory;
             });
 
-            // 2. Adım: Seçilen Kriterlere Göre Sıralama (C#'taki OrderBy / OrderByDescending mantığı)
             if (selectedSort === 'price-desc') {
-                // Pahalıdan ucuza
                 filteredProducts.sort((a, b) => b.price - a.price);
             } else if (selectedSort === 'price-asc') {
-                // Ucuza pahalıya
                 filteredProducts.sort((a, b) => a.price - b.price);
             } else if (selectedSort === 'stock-desc') {
-                // Stok adedine göre (Çoktan aza)
                 filteredProducts.sort((a, b) => b.stock - a.stock);
             }
 
-            // Eğer sonuç boşsa kullanıcıya bilgi ver
             if (filteredProducts.length === 0) {
                 productListContainer.innerHTML = `<p style="color: var(--text-muted); grid-column: 1 / -1; text-align: center; padding: 2rem;">Aradığınız kriterlere uygun ürün bulunamadı.</p>`;
                 return;
             }
 
-            // Ürün kartlarını oluştur ve ekrana ekle
             filteredProducts.forEach(product => {
                 const card = document.createElement('div');
                 card.className = 'product-card';
                 card.innerHTML = `
-            <span class="category-tag">${product.category}</span>
-            <h4>${product.name}</h4>
-            <div class="card-info">
-                <span>Stok: <strong>${product.stock} adet</strong></span>
-                <span>Fiyat: <strong>${product.price} ₺</strong></span>
-            </div>
-            <button onclick="deleteProduct(${product.id})" style="background-color: #ef4444; color: white; border: none; padding: 0.4rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; margin-top: 0.5rem;">Ürünü Sil</button>
-        `;
+                    <img src="${product.image}" alt="${product.name}">
+                    <span class="category-tag">${product.category}</span>
+                    <h4>${product.name}</h4>
+                    <div class="card-info">
+                        <span>Stok: <strong>${product.stock} adet</strong></span>
+                        <span>Fiyat: <strong>${product.price} ₺</strong></span>
+                    </div>
+                    <button onclick="deleteProduct(${product.id})" style="background-color: #ef4444; color: white; border: none; padding: 0.4rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; margin-top: 0.2rem;">Ürünü Sil</button>
+                `;
                 productListContainer.appendChild(card);
             });
         }
 
-        // İstatistikleri (KPI) hesaplayıp güncelleyen fonksiyon
+        // İstatistikleri güncelleyen fonksiyon
         function updateKPIs() {
             const totalCount = products.length;
             const totalStock = products.reduce((sum, product) => sum + product.stock, 0);
@@ -509,78 +467,17 @@
             kpiTotalValue.textContent = totalValue.toLocaleString('tr-TR') + ' ₺';
         }
 
-        // Ürünü listeden silen fonksiyon
+        // Ürün silme fonksiyonu
         function deleteProduct(id) {
             products = products.filter(product => product.id !== id);
             renderProducts();
             updateKPIs();
         }
 
-        // Sayfa ilk açıldığında verileri ve istatistikleri yükle
+        // Sayfa ilk açıldığında
         renderProducts();
         updateKPIs();
-
-        // Sayfa ilk açıldığında verileri ve istatistikleri yükle
-        renderProducts();
-        updateKPIs();
-
-        // Arama kutusuna yazı yazıldığında veya kategori değiştirildiğinde listeyi anlık güncelle
-        searchInput.addEventListener('input', renderProducts);
-        categoryFilter.addEventListener('change', renderProducts);
-
-        // Filtreleme mantığını yürüten fonksiyon
-        function filterProducts() {
-            const searchTerm = searchInput.value.toLowerCase().trim();
-            const selectedCategory = categoryFilter.value;
-
-            // Hem arama adına hem de kategoriye göre filtreleme yapıyoruz
-            const filteredProducts = products.filter(product => {
-                const matchesName = product.name.toLowerCase().includes(searchTerm);
-                const matchesCategory = selectedCategory === 'Tümü' || product.category === selectedCategory;
-
-                return matchesName && matchesCategory;
-            });
-
-            // Filtrelenen sonuçları ekrana basmak için geçici bir render mantığı
-            renderFilteredProducts(filteredProducts);
-        }
-
-        // Filtrelenmiş ürünleri ekrana basan yardımcı fonksiyon
-        function renderFilteredProducts(listToRender) {
-            productListContainer.innerHTML = '';
-
-            if (listToRender.length === 0) {
-                productListContainer.innerHTML = `<p style="color: var(--text-muted); grid-column: 1 / -1; text-align: center; padding: 2rem;">Aradığınız kriterlere uygun ürün bulunamadı.</p>`;
-                return;
-            }
-
-            listToRender.forEach(product => {
-                const card = document.createElement('div');
-                card.className = 'product-card';
-                card.innerHTML = `
-            <span class="category-tag">${product.category}</span>
-            <h4>${product.name}</h4>
-            <div class="card-info">
-                <span>Stok: <strong>${product.stock} adet</strong></span>
-                <span>Fiyat: <strong>${product.price} ₺</strong></span>
-            </div>
-            <button onclick="deleteProduct(${product.id})" style="background-color: #ef4444; color: white; border: none; padding: 0.4rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; margin-top: 0.5rem;">Ürünü Sil</button>
-        `;
-                productListContainer.appendChild(card);
-            });
-        }
     </script>
-
-
-
-
-
-
-
-
-
-
-
 </body>
 
 </html>
